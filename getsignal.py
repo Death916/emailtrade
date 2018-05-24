@@ -4,11 +4,11 @@ import imapclient
 import pyzmail
 
 imap = imapclient.IMAPClient('imap.gmail.com', ssl=True)
-imap.login('tavn1992@gmail.com', 'tzzjgbzdtadlflls')
+imap.login('email', 'pass')
 imap.select_folder('CRYPTO/trade', readonly=True)
 
 
-alert = imap.search(b'SEEN')
+alert = imap.search(b'UNSEEN')
 
 for num in range(0, 100000):
 	if num in alert:
@@ -31,4 +31,6 @@ elif 'strategy says buy now' in message.get_subject():
 else:
 
 	print('failed')
+
+class start_trade():
 
