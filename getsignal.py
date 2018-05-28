@@ -21,9 +21,10 @@ message = pyzmail.PyzMessage.factory(msg[uid][b'BODY[]'])
 trade = None
 
 def start_buy():
-	if trade == "buy":
-		print('trade is a buy')
-		subprocess.check_call(['/usr/local/bin/catalyst run -f test1.py -x poloniex -o out.pickle --start 2018-4-1 --end 2018-4-2 -c btc --capital-base 10'], shell = True)
+	    print('trade is a buy')
+	    subprocess.check_call(['/usr/local/bin/catalyst live -f buy_and_hodl.py -x poloniex -n test -c btc --capital-base 100'], shell = True)
+    
+    
 
 def start_sell():
 	if trade == "sell":
@@ -31,21 +32,25 @@ def start_sell():
 
 
 
-if 'strategy says sell now' in message.get_subject():
-		print('sell signal found')
-		print(message.get_subject())
-		trade = "sell"
+def get_signal():
+    try: 
+        if 'strategy says sell now' in message.get_subject():	
+            print('sell signal found')
+            print(message.get_subject())
+            return "sell"
 
-elif 'strategy says buy now' in message.get_subject():
-	print('buy signal found')
-	print(message.get_subject())
-	trade = "buy"
-
-else:
-
-	print('failed')
+        elif 'strategy says buy now' in message.get_subject():
+            print('buy signal found')
+            print(message.get_subject())
+            return "buy"
+    except:
+        print('failed')
 
 
 
-start_buy()
-#start_sell()
+signal = get_signal()
+if signal == "buy":
+    start_buy()
+if signal == "sell"
+    start_sell()
+
