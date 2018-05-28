@@ -3,6 +3,7 @@
 import imapclient
 import pyzmail
 import glogin
+import subprocess
 
 #login to server
 imap = glogin.connect()
@@ -22,6 +23,7 @@ trade = None
 def start_buy():
 	if trade == "buy":
 		print('trade is a buy')
+		subprocess.check_call(['/usr/local/bin/catalyst run -f test1.py -x poloniex -o out.pickle --start 2018-4-1 --end 2018-4-2 -c btc --capital-base 10'], shell = True)
 
 def start_sell():
 	if trade == "sell":
@@ -45,5 +47,5 @@ else:
 
 
 
-#start_buy()
+start_buy()
 #start_sell()
