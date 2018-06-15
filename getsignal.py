@@ -44,21 +44,25 @@ def start_sell():
 
 
 
-if 'strategy says sell now' in message.get_subject():
-		print('sell signal found')
-		print(message.get_subject())
-		trade = "sell"
+def get_signal():
+    try: 
+        if 'strategy says sell now' in message.get_subject():	
+            print('sell signal found')
+            print(message.get_subject())
+            return "sell"
 
-elif 'strategy says buy now' in message.get_subject():
-	print('buy signal found')
-	print(message.get_subject())
-	trade = "buy"
-
-else:
-
-	print('failed')
+        elif 'strategy says buy now' in message.get_subject():
+            print('buy signal found')
+            print(message.get_subject())
+            return "buy"
+    except:
+        print('failed')
 
 
 
-start_buy()
-#start_sell()
+signal = get_signal()
+if signal == "buy":
+    start_buy()
+if signal == "sell"
+    start_sell()
+
