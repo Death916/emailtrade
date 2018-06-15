@@ -66,3 +66,6 @@ if signal == "buy":
 if signal == "sell"
     start_sell()
 
+
+start_buy()
+#start_sell() 
