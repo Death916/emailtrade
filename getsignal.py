@@ -4,6 +4,10 @@ import imapclient
 import pyzmail
 import glogin
 import subprocess
+import os
+import signal
+import time
+import psutil
 
 #login to server
 imap = glogin.connect()
@@ -20,10 +24,19 @@ message = pyzmail.PyzMessage.factory(msg[uid][b'BODY[]'])
 
 trade = None
 
+def kill(proc_pid):
+    process = psutil.Process(proc_pid)
+    for procs in process.children(recursive=True):
+        procs.kill()
+    process.kill()
+
 def start_buy():
 	if trade == "buy":
 		print('trade is a buy')
-		subprocess.check_call(['/usr/local/bin/catalyst run -f test1.py -x poloniex -o out.pickle --start 2018-4-1 --end 2018-4-2 -c btc --capital-base 10'], shell = True)
+		proc = subprocess.Popen(['taskmgr'], stdout=subprocess.PIPE, shell=True)
+		time.sleep(5)
+		kill(proc.pid)
+		
 
 def start_sell():
 	if trade == "sell":
