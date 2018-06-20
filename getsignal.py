@@ -4,23 +4,25 @@ import imapclient
 import pyzmail
 import glogin
 import subprocess
-import os
-import signal
 import time
 import psutil
 
 #login to server
-imap = glogin.connect()
-imap.select_folder('CRYPTO/trade', readonly=True)
-alert = imap.search(b'UNSEEN')
 
-#get all unseen uids
-for num in range(0, 100000):
-	if num in alert:
-		uid = num
+def gconnect():
+	imap = glogin.connect()
+	imap.select_folder('CRYPTO/trade', readonly=True)
+	alert = imap.search(b'UNSEEN')
+	global uid
+	# get all unseen uids
+	for num in range(0, 100000):
+		if num in alert:
+			uid = num
 
-msg = imap.fetch([uid], [b'BODY[]', b'FLAGS'])
-message = pyzmail.PyzMessage.factory(msg[uid][b'BODY[]'])
+	msg = imap.fetch([uid], [b'BODY[]', b'FLAGS'])
+	global message
+	message = pyzmail.PyzMessage.factory(msg[uid][b'BODY[]'])
+
 
 last_alert = 0
 
@@ -32,6 +34,7 @@ def kill(proc_pid):
 		procs.kill()
 	process.kill()
 
+
 def start_buy():
 	
 	print('trade is a buy')
@@ -41,7 +44,6 @@ def start_buy():
 	time.sleep(5)
 	kill(proc.pid)
 	
-		
 
 def start_sell():
 
@@ -69,28 +71,34 @@ def get_signal():
 		print('failed')
 
 
+last_uid = 0
+
+
 while True:
+
 	print('in loop')
+
+	global uid
+	gconnect()
+	print(uid)
 	signal = get_signal()
+
 	try:
-		signal
-		if signal == "buy" and last_alert != 'buy':
-			start_buy()
-			print(last_alert)
-		elif signal == "sell" and last_alert == "buy":
-			start_sell()
-			print(last_alert)
+
+		if last_uid != uid:
+
+			if signal == "buy" and last_alert != 'buy':
+				start_buy()
+				print(last_alert)
+				last_uid = uid
+			elif signal == "sell" and last_alert == "buy":
+				start_sell()
+				print(last_alert)
+				last_uid = uid
+		else:
+			print('same uid')
 	except:
-		print('buy fail')
+		print(' fail')
 	
-	time.sleep(10)
+	time.sleep(500)
 
-"""
-time.sleep(5)
-print('waited 5')
-time.sleep(5)
-print('waited5')
-
-#start_buy()
-#start_sell() 
-"""
