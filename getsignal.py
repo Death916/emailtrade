@@ -7,7 +7,7 @@ import subprocess
 import time
 import psutil
 
-#login to server
+# login to server
 
 def gconnect():
 	imap = glogin.connect()
@@ -59,13 +59,13 @@ def get_signal():
 	try: 
 		if 'strategy says sell now' in message.get_subject() or last_alert == 'buy':	
 			print('sell signal found')
-			print(message.get_subject())
+			# print(message.get_subject())
 			print('got sell signal')
 			return "sell"
 
 		elif 'strategy says buy now' in message.get_subject():
 			print('buy signal found')
-			print(message.get_subject())
+			# print(message.get_subject())
 			return "buy"
 	except:
 		print('failed')
@@ -76,12 +76,11 @@ last_uid = 0
 
 while True:
 
-	print('in loop')
-
 	global uid
 	gconnect()
 	print(uid)
 	signal = get_signal()
+	print(time.ctime())
 
 	try:
 
@@ -100,5 +99,5 @@ while True:
 	except:
 		print(' fail')
 	
-	time.sleep(500)
+	time.sleep(600)
 
