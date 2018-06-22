@@ -6,6 +6,7 @@ import glogin
 import subprocess
 import time
 import psutil
+import trade
 
 # login to server
 
@@ -22,7 +23,7 @@ def gconnect():
 	msg = imap.fetch([uid], [b'BODY[]', b'FLAGS'])
 	global message
 	message = pyzmail.PyzMessage.factory(msg[uid][b'BODY[]'])
-
+	print('connected')
 
 last_alert = 0
 
@@ -38,66 +39,74 @@ def kill(proc_pid):
 def start_buy():
 	
 	print('trade is a buy')
-	proc = subprocess.Popen(['taskmgr'], stdout=subprocess.PIPE, shell=True)
+	trade.open_trade(1)
 	global last_alert
 	last_alert = "buy"
-	time.sleep(5)
-	kill(proc.pid)
 	
-
+	
 def start_sell():
 
 	print('trade is a sell')
-	proc = subprocess.Popen(['taskmgr'], stdout=subprocess.PIPE, shell=True)
+	trade.close_trade(1)
 	global last_alert
 	last_alert = "sell"
-	time.sleep(5)
-	kill(proc.pid)
-
+	
 
 def get_signal():
 	try: 
 		if 'strategy says sell now' in message.get_subject() or last_alert == 'buy':	
 			print('sell signal found')
-			# print(message.get_subject())
-			print('got sell signal')
+			coin = message.get_subject()
+			print(coin)
 			return "sell"
 
-		elif 'strategy says buy now' in message.get_subject():
+		elif last_alert == 'sell' or last_alert == 0:
 			print('buy signal found')
-			# print(message.get_subject())
+			coin = message.get_subject()
+			"""if 'ETHBTC' in coin:     # TODO check for current ticker to use
+				print('true')
+			else:
+    				print('false') """
+			print(coin)
+			
 			return "buy"
+			
 	except:
 		print('failed')
 
 
 last_uid = 0
 
+def main():
+	while True:
 
-while True:
+		global uid
+		gconnect()
+		print(uid)
+		signal = get_signal()
+		print(time.ctime())
 
-	global uid
-	gconnect()
-	print(uid)
-	signal = get_signal()
-	print(time.ctime())
+		try:
+			global last_uid
+			if last_uid != uid:
 
-	try:
+				if signal == "buy" and last_alert != 'buy':
+					start_buy()
+					print(last_alert)
+					last_uid = uid
+				elif signal == "sell" and last_alert == "buy":
+					start_sell()
+					print(last_alert)
+					last_uid = uid
+			else:
+				print('same uid')
+		except:
+			print(' fail')
+		print(trade.open_orders())
+		
+		time.sleep(600)
 
-		if last_uid != uid:
-
-			if signal == "buy" and last_alert != 'buy':
-				start_buy()
-				print(last_alert)
-				last_uid = uid
-			elif signal == "sell" and last_alert == "buy":
-				start_sell()
-				print(last_alert)
-				last_uid = uid
-		else:
-			print('same uid')
-	except:
-		print(' fail')
+if __name__ == '__main__':
+    	main()
 	
-	time.sleep(600)
 
