@@ -2,7 +2,7 @@
 
 import json
 from bittrex.bittrex import Bittrex
-
+import history as hist
 
 amount = 0
 price = 0
@@ -19,24 +19,30 @@ trex = Bittrex(api_key, priv_key)
 def marketcheck(ticker):
     markets = trex.get_ticker(ticker)
     price = markets['result']['Ask']
-    print(markets['result'])
+    #print(markets['result'])
     return price
 
 
 def open_trade(amount):
-    marketcheck(ticker)
-    trex.buy_limit(ticker, amount, rate=None)
+    global buyprice
+    buyprice = marketcheck(ticker)
+    trex.buy_limit(ticker, amount, rate = None)
     print('buying',  amount, 'of', ticker)
+    hist.tradehist('bought ' +  amount + ' of ' + ticker + ' at ' + str(buyprice))
 
 def close_trade(amount):
-    marketcheck(ticker)
-    trex.sell_limit(ticker, amount, rate =None)
+    global sellprice
+    sellprice = marketcheck(ticker)
+    trex.sell_limit(ticker, amount, rate = None)
     print('selling',  amount, 'of', ticker)
+    hist.tradehist('sold ' +  amount + ' of ' + ticker + ' at ' + str(sellprice))
+    hist.tradehist('profit = ' + str(sellprice - buyprice))
 
 def open_orders():
     trex.get_open_orders()
 
     
 
-#open_buy('1')
+open_trade('1')
+close_trade('1')
 
