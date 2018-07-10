@@ -4,7 +4,7 @@ import pyzmail
 import glogin
 import trade
 import history as hist
-import psutil
+
 import time
 
 
@@ -13,23 +13,15 @@ import time
 def gconnect():
 	imap = glogin.connect()
 	imap.select_folder('CRYPTO/trade', readonly=True)
-	alert = imap.search(b'UNSEEN')
-	try:
-		global uid
-		# get all unseen uids
-		for num in range(0, 100000):
-			if num in alert:
-				uid = num
-
-		msg = imap.fetch([uid], [b'BODY[]', b'FLAGS'])
-		global message
-		message = pyzmail.PyzMessage.factory(msg[uid][b'BODY[]'])
-		print('connected')
-	except NameError:
-		print('NO new trade')
+	return imap
 
 
-last_alert = 314
+
+
+
+
+
+last_alert = 0
 
 # remnant of old version TODO: save this somewhere
 """def kill(proc_pid):
@@ -55,21 +47,18 @@ def start_sell():
 	hist.tradehist('sell test')
 
 
-def get_signal():
+def getsignal():
 	try:
+		global uid
 		if last_alert == 'buy' and last_uid != uid:
 			print('sell signal found')
-			coin = message.get_subject()
-			print(coin)
 			return "sell"
 
 		elif last_alert == 'sell' or last_alert == 0:
 			print('buy signal found')
 			#coin = message.get_subject()
 
-
-
-			return "buy"
+			return"buy"
 
 	except:
 		print('failed')
@@ -79,15 +68,25 @@ last_uid = 0
 
 
 def main():
+	s = gconnect()
+	idle = s
+	s.idle()
 	while True:
-		try:
+
+
+		responses = idle.idle_check(30)
+		print("Server sent:", responses if responses else "nothing")
+
+
+		list_uid = ([i[0] for i in responses])
+		if list_uid != []:
 			global uid
-			gconnect()
-			print(uid)
-			signal = get_signal()
-			print(time.ctime())
-		except NameError:
-			print('no trade')
+			print(list_uid[0])
+			uid = list_uid[0]
+			signal = getsignal()
+
+		print(time.ctime())
+
 
 		global last_uid
 		if last_uid != uid:
@@ -106,7 +105,7 @@ def main():
 		if trade.open_orders() != None:
 			print(trade.open_orders())
 
-		time.sleep(900)
+		#time.sleep(900)
 
 
 if __name__ == '__main__':
