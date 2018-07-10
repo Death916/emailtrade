@@ -71,10 +71,10 @@ def main():
 	s = gconnect()
 	idle = s
 	s.idle()
+	start_time = time.time()
 	while True:
 
-
-		responses = idle.idle_check(30)
+		responses = idle.idle_check(180)
 		print("Server sent:", responses if responses else "nothing")
 
 
@@ -84,11 +84,14 @@ def main():
 			print(list_uid[0])
 			uid = list_uid[0]
 			signal = getsignal()
+		else:
+			uid = 0
 
 		print(time.ctime())
 
 
 		global last_uid
+
 		if last_uid != uid:
 
 			if signal == "buy" and last_alert != 'buy':
@@ -104,8 +107,13 @@ def main():
 
 		if trade.open_orders() != None:
 			print(trade.open_orders())
+		if time.time() - start_time > 1740:
+			s.idle_done()
+			print('restarting connection')
+			s.idle()
+			start_time = time.time()
 
-		#time.sleep(900)
+
 
 
 if __name__ == '__main__':
