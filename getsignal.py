@@ -29,19 +29,19 @@ def gconnect():
 		print('NO new trade')
 
 
-last_alert = 0
+last_alert = 314
 
-
-def kill(proc_pid):
+# remnant of old version TODO: save this somewhere
+"""def kill(proc_pid):
 	process = psutil.Process(proc_pid)
 	for procs in process.children(recursive=True):
 		procs.kill()
-	process.kill()
+	process.kill() """
 
 
 def start_buy():
 	print('trade is a buy')
-	trade.open_trade(.0005)
+	trade.open_trade(1)
 	global last_alert
 	last_alert = "buy"
 	hist.tradehist('buy test')
@@ -49,7 +49,7 @@ def start_buy():
 
 def start_sell():
 	print('trade is a sell')
-	trade.close_trade(0)
+	trade.close_trade(1)
 	global last_alert
 	last_alert = "sell"
 	hist.tradehist('sell test')
@@ -65,9 +65,9 @@ def get_signal():
 
 		elif last_alert == 'sell' or last_alert == 0:
 			print('buy signal found')
-			coin = message.get_subject()
+			#coin = message.get_subject()
 
-			print(coin)
+
 
 			return "buy"
 
@@ -89,25 +89,24 @@ def main():
 		except NameError:
 			print('no trade')
 
-		try:
-			global last_uid
-			if last_uid != uid:
+		global last_uid
+		if last_uid != uid:
 
-				if signal == "buy" and last_alert != 'buy':
-					start_buy()
-					print('last alert was', last_alert)
-					last_uid = uid
-				elif signal == "sell" and last_alert == "buy":
-					start_sell()
-					print('last alert was ', last_alert)
-					last_uid = uid
-			else:
-				print('same uid')
-		except:
-			print(' trade fail')
-		print(trade.open_orders())
+			if signal == "buy" and last_alert != 'buy':
+				start_buy()
+				print('last alert was', last_alert)
+				last_uid = uid
+			elif signal == "sell" and last_alert == "buy":
+				start_sell()
+				print('last alert was ', last_alert)
+				last_uid = uid
+		else:
+			print('same uid')
 
-		time.sleep(600)
+		if trade.open_orders() != None:
+			print(trade.open_orders())
+
+		time.sleep(900)
 
 
 if __name__ == '__main__':
