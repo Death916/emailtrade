@@ -20,14 +20,15 @@ trex = Bittrex(api_key, priv_key)
 def marketcheck(ticker):
     markets = trex.get_ticker(ticker)
     price = markets['result']['Ask']
-    #print(markets)
+    print(ticker, 'price is ', markets)
     return price
 
 
 def open_trade(amount):
     global buyprice
     buyprice = marketcheck(ticker)
-    #print(trex.buy_limit(ticker, amount, rate=price))
+    amount = .0005 / buyprice
+    print(trex.buy_limit(ticker, amount, rate=buyprice))
     print('buying',  amount, 'of', ticker)
     hist.tradehist('bought ' + str(amount) + ' of ' + ticker + ' at ' + str(buyprice))
     print(buyprice)
@@ -36,7 +37,8 @@ def open_trade(amount):
 def close_trade(amount):
     global sellprice
     sellprice = marketcheck(ticker)
-    #print(trex.sell_limit(ticker, amount, rate = None))
+    amount = .0005 / sellprice
+    print(trex.sell_limit(ticker, amount, rate=sellprice))
     print('selling',  amount, 'of', ticker)
     hist.tradehist('sold ' + str(amount) + ' of ' + ticker + ' at ' + str(sellprice))
     hist.tradehist('profit = ' + '{:.20f}'.format((sellprice * amount) - (buyprice * amount)))
