@@ -71,6 +71,7 @@ def main():
             uid = 0
 
         print(time.ctime())
+        global last_alert
         print('last alert was ', last_alert)
 
 
