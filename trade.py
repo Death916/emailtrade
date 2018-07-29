@@ -5,7 +5,7 @@ from bittrex import Bittrex
 
 import history as hist
 
-amount = 0
+
 price = 0
 
 with open('D:/code/emailtrade/keys.json') as k:

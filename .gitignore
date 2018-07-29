@@ -4,3 +4,12 @@ keys\.json
 tradehist\.txt
 
 glogin\.py
+
+*.pyc
+
+*.xml
+
+__pycache__/
+.idea/workspace.xml
+.idea/emailtrade.iml
+.vscode/settings.json
