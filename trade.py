@@ -28,7 +28,7 @@ def open_trade(amount):
     buy_amount = .0005 / buyprice
     # print(trex.buy_limit(ticker, amount, rate=buyprice))
     print('buying',  buy_amount, 'of', ticker)
-    hist.tradehist('bought ' + str(amount) + ' of ' + ticker + ' at ' + str(buyprice))
+    hist.tradehist('bought ' + str(buy_amount) + ' of ' + ticker + ' at ' + str(buyprice))
     return
 
 def close_trade(amount):
@@ -39,7 +39,7 @@ def close_trade(amount):
     print('selling',  amount, 'of', ticker)
     hist.tradehist('sold ' + str(amount) + ' of ' + ticker + ' at ' + str(sellprice))
     global buy_amount
-    hist.tradehist('profit = ' + '{:.20f}'.format((sellprice * amount) - (buyprice * buy_amount)))
+    hist.tradehist('profit = ' + '{:.25f}'.format((sellprice * amount) - (buyprice * amount)))
 
 def open_orders():
     trex.get_open_orders()

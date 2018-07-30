@@ -16,16 +16,16 @@ last_alert = 0
 
 def start_buy():
     print('trade is a buy')
-    trade.open_trade(0)
+    trade.open_trade(1)
     global last_alert
     last_alert = "buy"
     hist.tradehist('buy test')
 
 
-def start_sell(): 
+def start_sell():
     
     print('trade is a sell')
-    trade.close_trade(0)
+    trade.close_trade(1)
     global last_alert
     last_alert = "sell"
     hist.tradehist('sell test')
@@ -100,6 +100,9 @@ def main():
                 start_time = time.time()
             except:
                 print('restart failed')
+                s = gconnect()
+                s.idle()
+                start_time = time.time()
 
 
 
