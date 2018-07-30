@@ -38,6 +38,7 @@ def close_trade(amount):
     # print(trex.sell_limit(ticker, amount, rate=sellprice))
     print('selling',  amount, 'of', ticker)
     hist.tradehist('sold ' + str(amount) + ' of ' + ticker + ' at ' + str(sellprice))
+    global buy_amount
     hist.tradehist('profit = ' + '{:.20f}'.format((sellprice * amount) - (buyprice * buy_amount)))
 
 def open_orders():
