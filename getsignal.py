@@ -1,4 +1,3 @@
-import pyzmail
 import glogin
 import trade
 import history as hist
@@ -17,7 +16,7 @@ last_alert = 0
 
 def start_buy():
     print('trade is a buy')
-    trade.open_trade(1)
+    trade.open_trade(0)
     global last_alert
     last_alert = "buy"
     hist.tradehist('buy test')
@@ -26,7 +25,7 @@ def start_buy():
 def start_sell(): 
     
     print('trade is a sell')
-    trade.close_trade(1)
+    trade.close_trade(0)
     global last_alert
     last_alert = "sell"
     hist.tradehist('sell test')
