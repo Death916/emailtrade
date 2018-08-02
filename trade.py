@@ -21,7 +21,7 @@ def marketcheck(ticker):
     return price
 
 
-def open_trade(amount):
+def open_trade():
     global buyprice
     buyprice = marketcheck(ticker)
     global buy_amount
@@ -31,7 +31,7 @@ def open_trade(amount):
     hist.tradehist('bought ' + str(buy_amount) + ' of ' + ticker + ' at ' + str(buyprice))
     return
 
-def close_trade(amount):
+def close_trade():
     global sellprice
     sellprice = marketcheck(ticker)
     amount = .0005 / sellprice

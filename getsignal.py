@@ -16,7 +16,7 @@ last_alert = 0
 
 def start_buy():
     print('trade is a buy')
-    trade.open_trade(1)
+    trade.open_trade()
     global last_alert
     last_alert = "buy"
     hist.tradehist('buy test')
@@ -25,7 +25,7 @@ def start_buy():
 def start_sell():
     
     print('trade is a sell')
-    trade.close_trade(1)
+    trade.close_trade()
     global last_alert
     last_alert = "sell"
     hist.tradehist('sell test')
@@ -51,12 +51,11 @@ last_uid = 0
 
 def main():
     s = gconnect()
-    idle = s
     s.idle()
     start_time = time.time()
     while True:
 
-        responses = idle.idle_check(30)
+        responses = s.idle_check(30)
         print("Server sent:", responses if responses else "nothing")
 
 
@@ -91,18 +90,14 @@ def main():
 
         if trade.open_orders() != None:
             print(trade.open_orders())
-        if time.time() - start_time > 1740:
-            try:
-                s.idle_done()
-                print('restarting connection')
-                s = gconnect()
-                s.idle()
-                start_time = time.time()
-            except:
-                print('restart failed')
-                s = gconnect()
-                s.idle()
-                start_time = time.time()
+        if time.time() - start_time > 1000:
+
+            s.idle_done()
+            print('restarting connection')
+            s = gconnect()
+            s.idle()
+            start_time = time.time()
+
 
 
 
