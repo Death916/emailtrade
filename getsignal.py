@@ -90,14 +90,18 @@ def main():
 
         if trade.open_orders() != None:
             print(trade.open_orders())
-        if time.time() - start_time > 1000:
-
-            s.idle_done()
-            print('restarting connection')
-            s = gconnect()
-            s.idle()
-            start_time = time.time()
-
+        if time.time() - start_time > 1740:
+            try:
+                s.idle_done()
+                print('restarting connection')
+                s = gconnect()
+                s.idle()
+                start_time = time.time()
+            except:
+                print('restart failed trying again')
+                s = gconnect()
+                s.idle()
+                start_time = time.time()
 
 
 
