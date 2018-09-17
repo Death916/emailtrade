@@ -1,6 +1,8 @@
 import imapclient
 import json
-with open('D:/code/emailtrade/keys.json') as k:
+import os
+
+with open(os.getcwd() + 'keys.json') as k:
 	keys = json.load(k)
 
 def connect():
