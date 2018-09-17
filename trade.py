@@ -1,11 +1,11 @@
 import json
 from bittrex import Bittrex
 import history as hist
-
+import os
 
 price = 0
 
-with open('D:/code/emailtrade/keys.json') as k:
+with open(os.getcwd() + 'keys.json') as k:
     keys = json.load(k)
     
 api_key = keys['api_key']
