@@ -2,7 +2,7 @@ import imapclient
 import json
 import os
 
-with open(os.getcwd() + 'keys.json') as k:
+with open(os.getcwd() + '/keys.json') as k:
 	keys = json.load(k)
 
 def connect():
