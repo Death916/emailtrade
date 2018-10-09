@@ -25,7 +25,7 @@ def open_trade():
     global buyprice
     buyprice = marketcheck(ticker)
     balance = trex.get_balance('BTC')['result']['Available']
-    buy_amount = balance / buyprice
+    buy_amount = (balance / buyprice) -   (balance / buyprice) * .0025
     print(trex.buy_limit(ticker, buy_amount, rate=buyprice))
     print('buying',  buy_amount, 'of', ticker)
     hist.tradehist('bought ' + str(buy_amount) + ' of ' + ticker + ' at ' + str(buyprice))
@@ -36,7 +36,7 @@ def close_trade():
     sellprice = marketcheck(ticker)
    
     
-    sell_amount = trex.get_balance('ETH')['result']['Available']
+    sell_amount = trex.get_balance('ETH')['result']['Available'] 
     print(trex.sell_limit(ticker, sell_amount, rate=sellprice))
     print('selling',  sell_amount, 'of', ticker)
     hist.tradehist('sold ' + str(sell_amount) + ' of ' + ticker + ' at ' + str(sellprice))
