@@ -50,12 +50,12 @@ last_uid = 0
 
 
 def main():
-    s = gconnect()
-    s.idle()
+    mail = gconnect()
+    mail.idle()
     start_time = time.time()
     while True:
 
-        responses = s.idle_check(30)
+        responses = mail.idle_check(30)
         print("Server sent:", responses if responses else "nothing")
 
 
@@ -92,15 +92,15 @@ def main():
             print(trade.open_orders())
         if time.time() - start_time > 1740:
             try:
-                s.idle_done()
+                mail.idle_done()
                 print('restarting connection')
-                s = gconnect()
-                s.idle()
+                mail = gconnect()
+                mail.idle()
                 start_time = time.time()
             except:
                 print('restart failed trying again')
-                s = gconnect()
-                s.idle()
+                mail = gconnect()
+                mail.idle()
                 start_time = time.time()
 
 
