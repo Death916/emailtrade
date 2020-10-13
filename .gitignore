@@ -2,7 +2,7 @@
 keys\.json
 
 tradehist\.txt
-
+.venv
 
 
 *.pyc
