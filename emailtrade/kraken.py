@@ -2,49 +2,57 @@ import json
 
 import history as hist
 import os
+import krakenex
+from pykrakenapi import KrakenAPI
+
 
 price = 0
 
 with open(os.getcwd() + "/keys.json") as k:
     keys = json.load(k)
 
-api_key = keys["api_key"]
-priv_key = keys["priv_key"]
-ticker = "BTC-ETH"
-kraken = Bittrex(api_key, priv_key)
+API_KEY = keys["API_KEY"]
+PRIV_KEY = keys["PRIV_KEY"]
+TICKER= "ETHUSD"
+API  = krakenex.api()
+
+
+kraken = KrakenAPI(API)
 buyprice = ""
 sellprice = ""
 
 
-def marketcheck(ticker):
-    markets = trex.get_ticker(ticker)
-    price = markets["result"]["Ask"]
-    print(ticker, "price is ", price)
+def marketcheck(TICKER):
+    markets =  kraken.get_ohlc_data(TICKER)
+    price = markets[0]['close'][0]
+    print(TICKER, "price is ", price)
     return price
 
 
+#done
+
 def open_trade():
 
-    buyprice = marketcheck(ticker)
-    balance = trex.get_balance("BTC")["result"]["Available"]
+    buyprice = marketcheck(TICKER)
+    balance = trex.get_balance("USD")["result"]["Available"]
     buy_amount = (balance / buyprice) - (balance / buyprice) * 0.0025
-    print(trex.buy_limit(ticker, buy_amount, rate=buyprice))
-    print("buying", buy_amount, "of", ticker)
+    print(trex.buy_limit(TICKER, buy_amount, rate=buyprice))
+    print("buying", buy_amount, "of", TICKER)
     hist.tradehist(
-        "bought " + str(buy_amount) + " of " + ticker + " at " + str(buyprice)
+        "bought " + str(buy_amount) + " of " + TICKER+ " at " + str(buyprice)
     )
     return
 
 
 def close_trade():
 
-    sellprice = marketcheck(ticker)
+    sellprice = marketcheck(TICKER)
 
     sell_amount = trex.get_balance("ETH")["result"]["Available"]
-    print(trex.sell_limit(ticker, sell_amount, rate=sellprice))
-    print("selling", sell_amount, "of", ticker)
+    print(trex.sell_limit(TICKER, sell_amount, rate=sellprice))
+    print("selling", sell_amount, "of", TICKER)
     hist.tradehist(
-        "sold " + str(sell_amount) + " of " + ticker + " at " + str(sellprice)
+        "sold " + str(sell_amount) + " of " + TICKER+ " at " + str(sellprice)
     )
     hist.tradehist(
         "profit = "
