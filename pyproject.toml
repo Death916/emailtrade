@@ -8,6 +8,8 @@ authors = ["Trent N <tavn1992@gmail.com>"]
 python = "^3.8"
 imapclient = "^2.1.0"
 python-bittrex = "^0.3.0"
+krakenex = "^2.1.0"
+pykrakenapi = "^0.2.1"
 
 [build-system]
 requires = ["poetry>=0.12"]
