@@ -4,17 +4,17 @@ import history as hist
 import os
 import krakenex
 from pykrakenapi import KrakenAPI
-
+import pandas as pd
 
 price = 0
 
 with open(os.getcwd() + "/keys.json") as k:
     keys = json.load(k)
 
-API_KEY = keys["API_KEY"]
-PRIV_KEY = keys["PRIV_KEY"]
+API_KEY = keys["public"]
+PRIV_KEY = keys["priv"]
 TICKER= "ETHUSD"
-API  = krakenex.api()
+API  = krakenex.api(API_KEY, PRIV_KEY)
 
 
 kraken = KrakenAPI(API)
@@ -34,9 +34,10 @@ def marketcheck(TICKER):
 def open_trade():
 
     buyprice = marketcheck(TICKER)
-    balance = trex.get_balance("USD")["result"]["Available"]
+    balancedf = kraken.get_account_balance() 
+    balance = balancedf.vol["ZUSD"]
     buy_amount = (balance / buyprice) - (balance / buyprice) * 0.0025
-    print(trex.buy_limit(TICKER, buy_amount, rate=buyprice))
+    kraken.add_standard_order(TICKER,)
     print("buying", buy_amount, "of", TICKER)
     hist.tradehist(
         "bought " + str(buy_amount) + " of " + TICKER+ " at " + str(buyprice)
@@ -61,5 +62,5 @@ def close_trade():
 
 
 def open_orders():
-    trex.get_open_orders()
+    kraken.get_open_orders(True)
     return
