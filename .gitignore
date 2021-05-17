@@ -3,7 +3,8 @@ keys\.json
 
 tradehist\.txt
 .venv
-
+.txt
+.idea*
 
 *.pyc
 

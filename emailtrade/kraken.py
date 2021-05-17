@@ -13,36 +13,34 @@ with open(os.getcwd() + "/keys.json") as k:
 
 API_KEY = keys["public"]
 PRIV_KEY = keys["priv"]
-TICKER= "ETHUSD"
-API  = krakenex.api(API_KEY, PRIV_KEY)
+TICKER = "ETHUSD"
+API = krakenex.API(API_KEY, PRIV_KEY)
 
 
 kraken = KrakenAPI(API)
-buyprice = ""
-sellprice = ""
 
 
-def marketcheck(TICKER):
-    markets =  kraken.get_ohlc_data(TICKER)
+def marketcheck():
+    markets = kraken.get_ohlc_data(TICKER)
     price = markets[0]['close'][0]
     print(TICKER, "price is ", price)
     return price
 
 
-#done
+# done
 
 def open_trade():
 
-    buyprice = marketcheck(TICKER)
+    buyprice = marketcheck()
     balancedf = kraken.get_account_balance() 
     balance = balancedf.vol["ZUSD"]
     buy_amount = (balance / buyprice) - (balance / buyprice) * 0.0025
-    kraken.add_standard_order(TICKER,)
-    print("buying", buy_amount, "of", TICKER)
+    # kraken.add_standard_order(TICKER, "buy", "market", balance)
+    print("buying", buy_amount, "of", TICKER, " for ", balance)
     hist.tradehist(
-        "bought " + str(buy_amount) + " of " + TICKER+ " at " + str(buyprice)
+        "bought " + str(buy_amount) + " of " + TICKER + " at " + str(buyprice)
     )
-    return
+    return buy_amount
 
 
 def close_trade():
