@@ -12,8 +12,6 @@ api_key = keys["api_key"]
 priv_key = keys["priv_key"]
 ticker = "BTC-ETH"
 trex = Bittrex(api_key, priv_key)
-buyprice = ""
-sellprice = ""
 
 
 def marketcheck(ticker):
@@ -23,9 +21,11 @@ def marketcheck(ticker):
     return price
 
 
+buyprice = marketcheck(ticker)
+
+
 def open_trade():
 
-    buyprice = marketcheck(ticker)
     balance = trex.get_balance("BTC")["result"]["Available"]
     buy_amount = (balance / buyprice) - (balance / buyprice) * 0.0025
     print(trex.buy_limit(ticker, buy_amount, rate=buyprice))
@@ -38,17 +38,17 @@ def open_trade():
 
 def close_trade():
 
-    sellprice = marketcheck(ticker)
+    sell_price = marketcheck(ticker)
 
     sell_amount = trex.get_balance("ETH")["result"]["Available"]
-    print(trex.sell_limit(ticker, sell_amount, rate=sellprice))
+    print(trex.sell_limit(ticker, sell_amount, rate=sell_price))
     print("selling", sell_amount, "of", ticker)
     hist.tradehist(
-        "sold " + str(sell_amount) + " of " + ticker + " at " + str(sellprice)
+        "sold " + str(sell_amount) + " of " + ticker + " at " + str(sell_price)
     )
     hist.tradehist(
         "profit = "
-        + "{:.25f}".format((sellprice * sell_amount) - (buyprice * sell_amount))
+        + "{:.25f}".format((sell_price * sell_amount) - (buyprice * sell_amount))
     )
 
 
