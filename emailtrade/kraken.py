@@ -14,7 +14,7 @@ with open(os.getcwd() + "/keys.json") as k:
 API_KEY = keys["public"]
 PRIV_KEY = keys["priv"]
 TICKER= "ETHUSD"
-API  = krakenex.api(API_KEY, PRIV_KEY)
+API  = krakenex.API(API_KEY,  PRIV_KEY)
 #BUY_CURRENCY = input().capitalize()
 
 kraken = KrakenAPI(API)

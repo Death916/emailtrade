@@ -1,14 +1,16 @@
 import glogin
-import trex
+
 import history as hist
-import kraken
+
 import time
 
 
 MARKET = input("Pease enter what market you want to use: Kraken or bittrex").lower()
 if MARKET ==  "kraken":
+    import kraken
     trade = kraken
 elif MARKET == "bittrex":
+    import trex
     trade = trex
     
 # TODO make above cleaner in  get_signal
