@@ -4,60 +4,76 @@ import history as hist
 import os
 import krakenex
 from pykrakenapi import KrakenAPI
+import pandas as pd
 
+price = 0
 
 with open(os.getcwd() + "/keys.json") as k:
     keys = json.load(k)
 
 API_KEY = keys["public"]
 PRIV_KEY = keys["priv"]
-TICKER = "ETHUSD"
-API = krakenex.API(API_KEY, PRIV_KEY)
-# BUY_COIN = input("what coin to buy")
-# SELL_COIN = input("what to buy it with")
+TICKER= "ETHUSD"
+API  = krakenex.api(API_KEY, PRIV_KEY)
+#BUY_CURRENCY = input().capitalize()
+
 kraken = KrakenAPI(API)
+buyprice = ""
+sellprice = ""
 
 
-def marketcheck():
-    markets = kraken.get_ohlc_data(TICKER)
+def marketcheck(TICKER):
+    markets =  kraken.get_ohlc_data(TICKER)
     price = markets[0]['close'][0]
     print(TICKER, "price is ", price)
     return price
 
 
-# done
-buyprice = marketcheck()
-
+#done
 
 def open_trade():
 
+    buyprice = marketcheck(TICKER)
     balancedf = kraken.get_account_balance() 
     balance = balancedf.vol["ZUSD"]
     buy_amount = (balance / buyprice) - (balance / buyprice) * 0.0025
-    # kraken.add_standard_order(TICKER, "buy", "market", balance)
-    print("buying", buy_amount, "of", TICKER, " for ", balance)
+    # kraken.add_standard_order(TICKER,)
+    print("buying", buy_amount, "of", TICKER)
     hist.tradehist(
-        "bought " + str(buy_amount) + " of " + TICKER + " at " + str(buyprice)
+        "bought " + str(buy_amount) + " of " + TICKER+ " at " + str(buyprice)
     )
-    return buy_amount
+    return
 
 
 def close_trade():
 
-    sell_price = marketcheck()
-    balancedf = kraken.get_account_balance()
-    sell_amount = balancedf.vol['XETH']
-    # print(kraken.add_standard_order(TICKER, "sell", "market", sell_amount))
+    sellprice = marketcheck(TICKER)
+    if TICKER == 'ETHUSD':
+        symbol = 'XETH'
+    if TICKER == 'XBTUSD':
+        symbol ='XXBT'
+
+
+    balance = kraken.get_account_balance()
+
+    sell_amount = balance.vol[symbol]
+    # print(trex.sell_limit(TICKER, sell_amount, rate=sellprice))
     print("selling", sell_amount, "of", TICKER)
     hist.tradehist(
-        "sold " + str(sell_amount) + " of " + TICKER + " at " + str(sell_price)
+        "sold " + str(sell_amount) + " of " + TICKER+ " at " + str(sellprice)
     )
     hist.tradehist(
         "profit = "
-        + "{:.25f}".format((sell_price * sell_amount) - (buyprice * sell_amount))
+        + "{:.25f}".format((sellprice * sell_amount) - (buyprice * sell_amount))
     )
 
 
 def open_orders():
     kraken.get_open_orders(True)
     return
+
+def open_positions():
+    kraken.get_open_positions()
+    return kraken.get_open_positions()
+
+# TODO uncomment buy/sells
