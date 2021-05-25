@@ -5,7 +5,7 @@ import history as hist
 import time
 
 
-MARKET = input("Pease enter what market you want to use: Kraken or bittrex").lower()
+MARKET = input("Pease enter what market you want to use: Kraken or bittrex ").lower()
 if MARKET ==  "kraken":
     import kraken
     trade = kraken
