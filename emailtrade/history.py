@@ -24,12 +24,14 @@ def tradehist(msg):
 
 
 def tradecsv(DATE, *args):
-    with open('/home/death/code/python/emailtrade/emailtrade/bottrades.csv','w', newline= '') as csvfile:
+    with open('/home/death/code/python/emailtrade/emailtrade/bottrades.csv','a', newline= '') as csvfile:
         args = [*args]
-        tradewriter = csv.writer(csvfile, delimiter =' ')
+        tradewriter = csv.DictWriter(csvfile,['Date','Time','Exchange','Price','Profit','Type','Pair'])
+        #tradewriter.writeheader()
+        
         for i in args:
-            tradewriter.writerow(i)
+            tradewriter.writerow({'Date':DATE,'Time':TIME,'Exchange':EXCHANGE,'Price':PRICE,'Profit':PROFIT,'Type':TYPE,'Pair':PAIR})
         
         csvfile.close
 
-tradecsv([DATE],[TIME],[EXCHANGE],[PRICE],[PROFIT], [TYPE], [PAIR])
+tradecsv(DATE,TIME,EXCHANGE,PRICE,PROFIT, TYPE,PAIR)
