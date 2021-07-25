@@ -5,7 +5,7 @@ import os
 import krakenex
 from pykrakenapi import KrakenAPI
 import pandas as pd
-
+import time
 price = 0
 
 with open(os.getcwd() + "/keys.json") as k:
@@ -47,7 +47,8 @@ def open_trade():
     hist.tradehist(
         "bought " + str(buy_amount) + " of " + TICKER+ " at " + str(buyprice)
     )
-    return
+    hist.tradecsv(time.ctime(),"Kraken",buy_amount,'0','BUY',TICKER)
+    return buy_amount
 
 
 def close_trade():
@@ -73,7 +74,7 @@ def close_trade():
     """
     profit = (sell_price * sell_amount) - (buyprice * sell_amount)
     hist.tradehist("profit = " + "{:.25}".format(profit))
-
+    hist.tradecsv(time.ctime(),"Kraken",sell_amount,profit,'sell',TICKER)
 def open_orders():
     kraken.get_open_orders(True)
     return
