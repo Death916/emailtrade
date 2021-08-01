@@ -1,8 +1,3 @@
-
-from ast import arg
-from inspect import ArgSpec
-from sqlite3 import Date
-from symbol import arglist
 import time
 import csv
 import pandas
@@ -34,4 +29,4 @@ def tradecsv(DATE, *args):
         
         csvfile.close
 
-tradecsv(DATE,TIME,EXCHANGE,PRICE,PROFIT, TYPE,PAIR)
+tradecsv(DATE,TIME,EXCHANGE,PRICE,PROFIT,TYPE,PAIR)
