@@ -42,7 +42,7 @@ def open_trade():
     balance = balancedf.vol["ZUSD"]
     global buy_amount
     buy_amount = (balance / buyprice) - (balance / buyprice) * 0.0025
-    # kraken.add_standard_order(TICKER,)
+    print(kraken.add_standard_order(pair=TICKER, type="buy", ordertype="market", volume=buy_amount, price=buyprice, validate=True))
     print("buying", buy_amount, "of", TICKER)
     hist.tradehist(
         "bought " + str(buy_amount) + " of " + TICKER+ " at " + str(buyprice)
@@ -63,7 +63,8 @@ def close_trade():
     balance = kraken.get_account_balance()
     sell_amount = buy_amount
     #sell_amount = balance.vol[symbol]
-   # print(trex.sell_limit(TICKER, sell_amount, rate=sellprice))
+   
+    print(kraken.add_standard_order(pair=TICKER, type="sell", ordertype="market", volume=buy_amount, validate=False))
     print("selling", sell_amount, "of", TICKER)
     hist.tradehist(
         "sold " + str(sell_amount) + " of " + TICKER+ " at " + str(sell_price)

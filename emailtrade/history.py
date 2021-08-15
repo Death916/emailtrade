@@ -18,6 +18,7 @@ def tradehist(msg):
     log.close()
 
 
+
 def tradecsv(DATE, *args):
     with open('/home/death/code/python/emailtrade/emailtrade/bottrades.csv','a', newline= '') as csvfile:
         args = [*args]
@@ -29,4 +30,4 @@ def tradecsv(DATE, *args):
         
         csvfile.close
 
-tradecsv(DATE,TIME,EXCHANGE,PRICE,PROFIT,TYPE,PAIR)
+#tradecsv(DATE,TIME,EXCHANGE,PRICE,PROFIT,TYPE,PAIR)
