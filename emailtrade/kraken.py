@@ -13,8 +13,8 @@ with open(os.getcwd() + "/keys.json") as k:
 
 API_KEY = keys["public"]
 PRIV_KEY = keys["priv"]
-TICKER= "ETHUSD"
-API  = krakenex.API(API_KEY,  PRIV_KEY)
+TICKER = "ETHUSD"
+API = krakenex.API(API_KEY,  PRIV_KEY)
 TIME = ""
 EXCHANGE = "kraken"
 PRICE = ""
@@ -24,9 +24,8 @@ PROFIT = ""
 kraken = KrakenAPI(API)
 
 
-
 def marketcheck(TICKER):
-    markets =  kraken.get_ohlc_data(TICKER)
+    markets = kraken.get_ohlc_data(TICKER)
     price = markets[0]['close'][0]
     print(TICKER, "price is ", price)
     return price
