@@ -38,7 +38,9 @@ def open_trade():
     global buyprice
     buyprice = marketcheck(TICKER)
     balancedf = kraken.get_account_balance() 
-    balance = balancedf.vol["ZUSD"]
+    balance = "200"
+    # balance = balancedf.vol["ZUSD"]
+    balance = float(balance)
     global buy_amount
     buy_amount = (balance / buyprice) - (balance / buyprice) * 0.0025
     print(kraken.add_standard_order(pair=TICKER, type="buy", ordertype="market", volume=buy_amount, price=buyprice, validate=True))
