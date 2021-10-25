@@ -1,14 +1,8 @@
 import time
 import csv
-import pandas
+import os
 
-TIME = "1200"
-EXCHANGE = "kraken"
-PRICE = "1800"
-PROFIT = "30"
-DATE = "10-10-14"
-TYPE = "buy"
-PAIR = "BTCUSD"
+
 
 
 def tradehist(msg):
@@ -17,17 +11,20 @@ def tradehist(msg):
     log.close()
 
 
-def tradecsv(DATE, *args):
-    with open('/home/death/code/python/emailtrade/emailtrade/bottrades.csv', 'a', newline='') as csvfile:
-        args = [*args]
-        tradewriter = csv.DictWriter(csvfile, ['Date', 'Time', 'Exchange', 'Price', 'Profit', 'Type', 'Pair'])
-        # tradewriter.writeheader()
+def tradecsv(Date,  Exchange, Price, Profit, Type, Pair):
+    filename = '/home/death/code/python/emailtrade/emailtrade/bottrades.csv'
+    file_exists = os.path.isfile(filename)
+    with open(filename, 'a', newline='') as csvfile:
+        
+        format = ['Date',  'Exchange', 'Price', 'Profit', 'Type', 'Pair']
+        if not file_exists:
+            tradewriter = csv.DictWriter(csvfile, fieldnames=format)
+       
+        
+        tradewriter.writerow({'Date':Date,'Exchange':Exchange,'Price':Price,'Profit':Profit,'Type':Type,'Pair':Pair})
 
-        for i in args:
-            tradewriter.writerow(
-                {'Date': DATE, 'Time': TIME, 'Exchange': EXCHANGE, 'Price': PRICE, 'Profit': PROFIT, 'Type': TYPE,
-                 'Pair': PAIR})
+            
 
         csvfile.close
 
-# tradecsv(DATE,TIME,EXCHANGE,PRICE,PROFIT,TYPE,PAIR)
+#tradecsv('4  ','3  ','2  ','1  ','4  ','5  ')
