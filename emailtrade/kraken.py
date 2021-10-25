@@ -65,7 +65,7 @@ def close_trade():
     sell_amount = buy_amount
     #sell_amount = balance.vol[symbol]
    
-    print(kraken.add_standard_order(pair=TICKER, type="sell", ordertype="market", volume=buy_amount, validate=False))
+    print(kraken.add_standard_order(pair=TICKER, type="sell", ordertype="market", volume=buy_amount, validate=True))
     print("selling", sell_amount, "of", TICKER)
     hist.tradehist(
         "sold " + str(sell_amount) + " of " + TICKER+ " at " + str(sell_price)
