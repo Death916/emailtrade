@@ -12,9 +12,9 @@ def tradehist(msg):
 
 
 def tradecsv(Date,  Exchange, Price, Profit, Type, Pair):
-    filename = '/home/death/code/python/emailtrade/emailtrade/bottrades.csv'
+    filename = '/root/emailtrade/emailtrade/bottrades.csv'
     file_exists = os.path.isfile(filename)
-    with open(filename, 'a', newline='') as csvfile:
+    with open(filename, 'w+', newline='') as csvfile:
         
         format = ['Date',  'Exchange', 'Price', 'Profit', 'Type', 'Pair']
         if not file_exists:
