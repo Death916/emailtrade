@@ -13,7 +13,7 @@ with open(os.getcwd() + "/keys.json") as k:
 
 API_KEY = keys["public"]
 PRIV_KEY = keys["priv"]
-TICKER = "ETHUSD"
+TICKER = "NANOETH"
 API = krakenex.API(API_KEY,  PRIV_KEY)
 TIME = ""
 EXCHANGE = "kraken"
@@ -43,7 +43,7 @@ def open_trade():
     balance = float(balance)
     global buy_amount
     buy_amount = (balance / buyprice) - (balance / buyprice) * 0.0025
-    print(kraken.add_standard_order(pair=TICKER, type="buy", ordertype="market", volume=buy_amount, price=buyprice, validate=True))
+    print(kraken.add_standard_order(pair=TICKER, type="buy", ordertype="market", volume=buy_amount, price=buyprice, validate=False))
     print("buying", buy_amount, "of", TICKER)
     hist.tradehist(
         "bought " + str(buy_amount) + " of " + TICKER+ " at " + str(buyprice)
@@ -65,7 +65,7 @@ def close_trade():
     sell_amount = buy_amount
     #sell_amount = balance.vol[symbol]
    
-    print(kraken.add_standard_order(pair=TICKER, type="sell", ordertype="market", volume=buy_amount, validate=True))
+    print(kraken.add_standard_order(pair=TICKER, type="sell", ordertype="market", volume=buy_amount, validate=False))
     print("selling", sell_amount, "of", TICKER)
     hist.tradehist(
         "sold " + str(sell_amount) + " of " + TICKER+ " at " + str(sell_price)
