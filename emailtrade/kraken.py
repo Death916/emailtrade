@@ -48,7 +48,7 @@ def open_trade():
     hist.tradehist(
         "bought " + str(buy_amount) + " of " + TICKER+ " at " + str(buyprice)
     )
-    hist.tradecsv(time.ctime(),"Kraken",buy_amount,'0','BUY',TICKER)
+    hist.tradecsv(time.ctime(),"Kraken",buyprice,'0','BUY',TICKER)
     return buy_amount
 
 
@@ -76,7 +76,7 @@ def close_trade():
     """
     profit = (sell_price * sell_amount) - (buyprice * sell_amount)
     hist.tradehist("profit = " + "{:.25}".format(profit))
-    hist.tradecsv(time.ctime(),"Kraken",sell_amount,profit,'sell',TICKER)
+    hist.tradecsv(time.ctime(),"Kraken",sell_price,profit,'sell',TICKER)
 def open_orders():
     kraken.get_open_orders(True)
     return

@@ -12,12 +12,14 @@ def tradehist(msg):
 
 
 def tradecsv(Date,  Exchange, Price, Profit, Type, Pair):
-    filename = '/root/emailtrade/emailtrade/bottrades.csv'
+    filename = os.getcwd() + "/bottrades.csv"
     file_exists = os.path.isfile(filename)
-    with open(filename, 'w+', newline='') as csvfile:
+    with open(filename, 'a', newline='') as csvfile:
         
         format = ['Date',  'Exchange', 'Price', 'Profit', 'Type', 'Pair']
         if not file_exists:
+            tradewriter = csv.DictWriter(csvfile, fieldnames=format)
+        else: 
             tradewriter = csv.DictWriter(csvfile, fieldnames=format)
        
         
