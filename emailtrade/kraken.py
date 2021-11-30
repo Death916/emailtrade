@@ -13,7 +13,7 @@ with open(os.getcwd() + "/keys.json") as k:
 
 API_KEY = keys["public"]
 PRIV_KEY = keys["priv"]
-TICKER = "NANOETH"
+TICKER = "CRVETH"
 API = krakenex.API(API_KEY,  PRIV_KEY)
 TIME = ""
 EXCHANGE = "kraken"
@@ -38,8 +38,8 @@ def open_trade():
     global buyprice
     buyprice = marketcheck(TICKER)
     balancedf = kraken.get_account_balance() 
-    balance = "200"
-    # balance = balancedf.vol["ZUSD"]
+   # balance = "200"
+    balance = balancedf.vol["XETH"]
     balance = float(balance)
     global buy_amount
     buy_amount = (balance / buyprice) - (balance / buyprice) * 0.0025
