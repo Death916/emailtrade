@@ -13,7 +13,7 @@ with open(os.getcwd() + "/keys.json") as k:
 
 API_KEY = keys["public"]
 PRIV_KEY = keys["priv"]
-TICKER = "CRVETH"
+TICKER = "ETHXBT"
 API = krakenex.API(API_KEY,  PRIV_KEY)
 TIME = ""
 EXCHANGE = "kraken"
@@ -39,7 +39,7 @@ def open_trade():
     buyprice = marketcheck(TICKER)
     balancedf = kraken.get_account_balance() 
    # balance = "200"
-    balance = balancedf.vol["XETH"]
+    balance = balancedf.vol["XXBT"]
     balance = float(balance)
     global buy_amount
     buy_amount = (balance / buyprice) - (balance / buyprice) * 0.0025
@@ -55,15 +55,15 @@ def open_trade():
 def close_trade():
 
     sell_price = marketcheck(TICKER)
-    if TICKER == 'ETHUSD':
-        symbol = 'XETH'
-    if TICKER == 'XBTUSD':
-        symbol ='XXBT'
+    #if TICKER == 'ETHUSD':
+     #   symbol = 'XETH'
+    #if TICKER == 'XBTUSD':
+     #   symbol ='XXBT'
 
 
     balance = kraken.get_account_balance()
-    sell_amount = buy_amount
-    #sell_amount = balance.vol[symbol]
+    #sell_amount = buy_amount
+    sell_amount = balance.vol['XETH']
    
     print(kraken.add_standard_order(pair=TICKER, type="sell", ordertype="market", volume=buy_amount, validate=False))
     print("selling", sell_amount, "of", TICKER)
