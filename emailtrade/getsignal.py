@@ -1,9 +1,24 @@
 import glogin
-import trade
+
 import history as hist
 
 import time
 
+import sys
+
+MARKET = input("Pease enter what market you want to use: Kraken or bittrex ").lower()
+if MARKET ==  "kraken":
+    import kraken
+    trade = kraken
+elif MARKET == "bittrex":
+    import trex
+    trade = trex
+    
+# TODO make above cleaner in  get_signal
+
+
+
+# TODO add try/except for market to make sure its correct
 
 # login to server
 
@@ -57,10 +72,15 @@ def main():
     mail.idle()
     start_time = time.time()
     while True:
-
-        responses = mail.idle_check(30)
-        print("Server sent:", responses if responses else "nothing")
-
+        try:
+              responses = mail.idle_check(30)
+              print("Server sent:", responses if responses else "nothing")
+        except KeyboardInterrupt:
+                  print("quitting")
+                  sys.exit(0) 
+        except otherError as e:
+                  print(e)
+                  continue
         list_uid = [i[0] for i in responses]
         if list_uid != []:
             global uid

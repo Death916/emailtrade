@@ -3,10 +3,15 @@ from bittrex import Bittrex
 import history as hist
 import os
 
+
 price = 0
 
 with open(os.getcwd() + "/keys.json") as k:
     keys = json.load(k)
+
+
+
+
 
 api_key = keys["api_key"]
 priv_key = keys["priv_key"]
